@@ -28,3 +28,6 @@ This repository contains practical material corresponding to the Unit II syllabu
 # QUIZZZZZZZ TIME:
 https://rikmicrobio.github.io/BIC502A_Unit_02_Introduction_to_programming/BIC502A_Unit_II_quiz/?utm_source=chatgpt.com
 
+
+<img width="450" height="450" alt="Image" src="https://github.com/user-attachments/assets/96b6cf4f-7c9e-4b67-ad95-3cb8c8023c28" />
+
