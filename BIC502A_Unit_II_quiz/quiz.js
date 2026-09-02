@@ -1,3 +1,8 @@
+// BIC502A Unit II Linux Mini Puzzle
+// Replace the URL below after deploying Code.gs as a Google Apps Script Web App.
+
+const GOOGLE_SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+
 const questions = [
   {
     q: "Which command displays the beginning of a file?",
@@ -45,7 +50,7 @@ const questions = [
     answer: "Sends output of one command to another command"
   },
   {
-    q: "Which symbol writes command output to a file and replaces its existing contents?",
+    q: 'Which symbol writes command output to a file and replaces its existing contents?',
     options: [">>", ">", "|", "-"],
     answer: ">"
   },
@@ -56,96 +61,157 @@ const questions = [
   }
 ];
 
-const startCard = document.getElementById("start-card");
-const quiz = document.getElementById("quiz");
+const startCard = document.getElementById("start");
+const quizForm = document.getElementById("quiz");
 const questionsBox = document.getElementById("questions");
-const result = document.getElementById("result");
-const scoreBox = document.getElementById("score");
-const message = document.getElementById("message");
+const resultCard = document.getElementById("result");
 
-document.getElementById("startBtn").addEventListener("click", () => {
+document.getElementById("startBtn").addEventListener("click", function () {
+
   const name = document.getElementById("name").value.trim();
+
   if (!name) {
     alert("Please enter your full name.");
     return;
   }
+
   startCard.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  window.scrollTo({top: 0, behavior: "smooth"});
+  quizForm.classList.remove("hidden");
+
+  window.scrollTo(0, 0);
 });
 
-questions.forEach((item, index) => {
+
+questions.forEach(function (item, index) {
+
   const section = document.createElement("section");
   section.className = "question";
 
   const heading = document.createElement("h3");
-  heading.textContent = `${index + 1}. ${item.q}`;
+  heading.textContent = (index + 1) + ". " + item.q;
+
   section.appendChild(heading);
 
-  item.options.forEach((option, optionIndex) => {
+  item.options.forEach(function (option) {
+
     const label = document.createElement("label");
     label.className = "option";
 
     const input = document.createElement("input");
+
     input.type = "radio";
-    input.name = `q${index}`;
+    input.name = "q" + index;
     input.value = option;
     input.required = true;
 
     label.appendChild(input);
     label.appendChild(document.createTextNode(option));
+
     section.appendChild(label);
   });
 
   questionsBox.appendChild(section);
 });
 
-quiz.addEventListener("submit", (event) => {
+
+quizForm.addEventListener("submit", async function (event) {
+
   event.preventDefault();
 
   let score = 0;
-  questions.forEach((item, index) => {
-    const selected = document.querySelector(`input[name="q${index}"]:checked`);
-    if (selected && selected.value === item.answer) score++;
+
+  questions.forEach(function (item, index) {
+
+    const selected = document.querySelector(
+      'input[name="q' + index + '"]:checked'
+    );
+
+    if (selected && selected.value === item.answer) {
+      score++;
+    }
+
   });
+
 
   const name = document.getElementById("name").value.trim();
   const roll = document.getElementById("roll").value.trim();
 
-  const attempt = {
-    name,
-    roll,
-    score,
-    total: questions.length,
-    submittedAt: new Date().toISOString()
-  };
+  const total = questions.length;
+  const percentage = Math.round((score / total) * 100);
 
-  // Local browser record. This does not send data to a server.
-  const attempts = JSON.parse(localStorage.getItem("unitIIQuizAttempts") || "[]");
-  attempts.push(attempt);
-  localStorage.setItem("unitIIQuizAttempts", JSON.stringify(attempts));
 
-  quiz.classList.add("hidden");
-  result.classList.remove("hidden");
+  quizForm.classList.add("hidden");
+  resultCard.classList.remove("hidden");
 
-  scoreBox.textContent = `${score} / ${questions.length}`;
 
-  if (score >= 9) {
-    message.textContent = "Excellent — Linux Explorer!";
-  } else if (score >= 7) {
-    message.textContent = "Good work — Command Apprentice!";
-  } else if (score >= 5) {
-    message.textContent = "Good start — keep exploring!";
-  } else {
-    message.textContent = "Keep practising and try again!";
+  document.getElementById("score").textContent =
+    score + " / " + total;
+
+
+  document.getElementById("message").textContent =
+    score >= 9
+      ? "Excellent — Linux Explorer!"
+      : score >= 7
+      ? "Good work — Command Apprentice!"
+      : score >= 5
+      ? "Good start — keep exploring!"
+      : "Keep practising and try again!";
+
+
+  const status = document.getElementById("status");
+
+
+  if (GOOGLE_SCRIPT_URL.includes("PASTE_YOUR")) {
+
+    status.textContent =
+      "Quiz completed. Teacher result collection is not configured yet.";
+
+    return;
   }
 
-  window.scrollTo({top: 0, behavior: "smooth"});
+
+  status.textContent = "Submitting your result...";
+
+
+  const data = new URLSearchParams();
+
+  data.append("name", name);
+  data.append("roll", roll);
+  data.append("score", String(score));
+  data.append("total", String(total));
+  data.append("percentage", String(percentage));
+
+
+  try {
+
+    await fetch(GOOGLE_SCRIPT_URL, {
+
+      method: "POST",
+      mode: "no-cors",
+      body: data
+
+    });
+
+    status.textContent =
+      "Your result has been submitted.";
+
+  } catch (error) {
+
+    status.textContent =
+      "Score calculated, but submission failed. Please inform the teacher.";
+
+    console.error(error);
+
+  }
+
+
+  window.scrollTo(0, 0);
+
 });
 
-document.getElementById("againBtn").addEventListener("click", () => {
-  document.getElementById("quiz").reset();
-  result.classList.add("hidden");
-  startCard.classList.remove("hidden");
-  window.scrollTo({top: 0, behavior: "smooth"});
+
+document.getElementById("again").addEventListener("click", function () {
+
+  location.reload();
+
 });
