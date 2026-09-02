@@ -3,40 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BIC502A - Unit II Linux Mini Puzzle</title>
+  <title>BIC502A - Unit II Linux Mini Quiz</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="container">
     <header>
-      <p class="course">BIC502A</p>
-      <h1>Unit II Linux Mini Puzzle</h1>
-      <p class="subtitle">10 simple questions on Linux commands, options, arguments, and file handling</p>
+      <div class="course">BIC502A</div>
+      <h1>Unit II Linux Mini Quiz</h1>
+      <p>Test your understanding of basic Linux commands.</p>
     </header>
 
-    <section id="start-card" class="card">
+    <section id="startScreen" class="card">
       <h2>Student Information</h2>
-      <label for="name">Full Name <span>*</span></label>
-      <input id="name" type="text" placeholder="Enter your full name" required>
 
-      <label for="roll">Roll Number <small>(Optional)</small></label>
-      <input id="roll" type="text" placeholder="Enter your roll number">
+      <label for="studentName">Full Name <span>*</span></label>
+      <input id="studentName" type="text" placeholder="Enter your full name" autocomplete="name">
 
-      <button id="startBtn">Start Quiz</button>
+      <label for="rollNumber">Roll Number <small>(Optional)</small></label>
+      <input id="rollNumber" type="text" placeholder="Enter your roll number">
+
+      <button id="startButton" type="button">Start Quiz</button>
     </section>
 
-    <form id="quiz" class="hidden">
+    <form id="quizForm" class="hidden">
       <div id="questions"></div>
-      <button type="submit" class="submit">Submit Quiz</button>
+      <button id="submitButton" type="submit">Submit Quiz</button>
     </form>
 
-    <section id="result" class="card hidden">
-      <h2 id="resultTitle">Quiz Result</h2>
+    <section id="resultScreen" class="card hidden">
+      <h2>Your Result</h2>
       <div id="score"></div>
       <p id="message"></p>
-      <button id="againBtn">Try Again</button>
+      <p id="submissionStatus"></p>
+      <button id="againButton" type="button">Take Again</button>
     </section>
   </main>
+
   <script src="quiz.js"></script>
 </body>
 </html>
