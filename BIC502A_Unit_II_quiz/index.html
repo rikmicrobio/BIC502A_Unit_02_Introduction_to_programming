@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIC502A - Unit II Linux Mini Puzzle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p class="course">BIC502A</p>
+      <h1>Unit II Linux Mini Puzzle</h1>
+      <p class="subtitle">10 simple questions on Linux commands, options, arguments, and file handling</p>
+    </header>
+
+    <section id="start-card" class="card">
+      <h2>Student Information</h2>
+      <label for="name">Full Name <span>*</span></label>
+      <input id="name" type="text" placeholder="Enter your full name" required>
+
+      <label for="roll">Roll Number <small>(Optional)</small></label>
+      <input id="roll" type="text" placeholder="Enter your roll number">
+
+      <button id="startBtn">Start Quiz</button>
+    </section>
+
+    <form id="quiz" class="hidden">
+      <div id="questions"></div>
+      <button type="submit" class="submit">Submit Quiz</button>
+    </form>
+
+    <section id="result" class="card hidden">
+      <h2 id="resultTitle">Quiz Result</h2>
+      <div id="score"></div>
+      <p id="message"></p>
+      <button id="againBtn">Try Again</button>
+    </section>
+  </main>
+  <script src="quiz.js"></script>
+</body>
+</html>

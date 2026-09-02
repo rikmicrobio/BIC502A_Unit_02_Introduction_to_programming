@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unit II Quiz - Local Results</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container">
+  <header>
+    <p class="course">BIC502A</p>
+    <h1>Unit II Quiz Results</h1>
+    <p class="subtitle">Results stored in this browser</p>
+  </header>
+  <section class="card">
+    <p><strong>Important:</strong> This page reads attempts saved in the same browser. For a class-wide online result sheet, connect the quiz to a backend such as Google Sheets, Supabase, or Firebase.</p>
+    <div id="results"></div>
+    <button onclick="clearResults()">Clear Local Results</button>
+  </section>
+</main>
+<script>
+const attempts = JSON.parse(localStorage.getItem("unitIIQuizAttempts") || "[]");
+const box = document.getElementById("results");
+
+if (!attempts.length) {
+  box.innerHTML = "<p>No quiz attempts have been stored in this browser yet.</p>";
+} else {
+  let html = "<table style='width:100%;border-collapse:collapse'><tr><th style='text-align:left;padding:8px;border-bottom:1px solid #ddd'>Name</th><th style='text-align:left;padding:8px;border-bottom:1px solid #ddd'>Roll No.</th><th style='text-align:left;padding:8px;border-bottom:1px solid #ddd'>Score</th><th style='text-align:left;padding:8px;border-bottom:1px solid #ddd'>Submitted</th></tr>";
+  attempts.forEach(a => {
+    html += `<tr><td style="padding:8px;border-bottom:1px solid #eee">${escapeHtml(a.name)}</td><td style="padding:8px;border-bottom:1px solid #eee">${escapeHtml(a.roll || "-")}</td><td style="padding:8px;border-bottom:1px solid #eee">${a.score}/${a.total}</td><td style="padding:8px;border-bottom:1px solid #eee">${new Date(a.submittedAt).toLocaleString()}</td></tr>`;
+  });
+  html += "</table>";
+  box.innerHTML = html;
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function clearResults() {
+  if (confirm("Clear all locally stored attempts?")) {
+    localStorage.removeItem("unitIIQuizAttempts");
+    location.reload();
+  }
+}
+</script>
+</body>
+</html>

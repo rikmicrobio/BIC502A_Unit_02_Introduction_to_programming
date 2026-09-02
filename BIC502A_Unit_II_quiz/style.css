@@ -1,0 +1,143 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f7f7;
+  color: #333;
+}
+
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 28px 18px 50px;
+}
+
+header {
+  background: white;
+  padding: 28px;
+  border-top: 5px solid #961858;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.course {
+  color: #961858;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0 0 8px;
+}
+
+h1 {
+  margin: 0;
+  color: #371f73;
+  font-size: 30px;
+}
+
+.subtitle {
+  color: #666;
+  line-height: 1.5;
+}
+
+.card, .question {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 24px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+}
+
+h2 {
+  color: #371f73;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin: 18px 0 7px;
+  font-weight: bold;
+}
+
+label span { color: #961858; }
+
+label small {
+  font-weight: normal;
+  color: #777;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 22px;
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 4px;
+  background: #961858;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.9; }
+
+.question h3 {
+  margin-top: 0;
+  color: #333;
+  line-height: 1.45;
+}
+
+.option {
+  display: block;
+  padding: 10px 12px;
+  margin: 7px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.option:hover { background: #f4f1f5; }
+
+.option input { margin-right: 10px; }
+
+pre {
+  background: #f3f3f3;
+  padding: 13px;
+  overflow-x: auto;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+}
+
+.submit { width: 100%; }
+
+.hidden { display: none; }
+
+#score {
+  font-size: 42px;
+  font-weight: bold;
+  color: #961858;
+  text-align: center;
+  margin: 25px 0 10px;
+}
+
+#message {
+  text-align: center;
+  font-size: 18px;
+}
+
+#againBtn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 25px; }
+  .container { padding: 14px 10px 35px; }
+  .card, .question { padding: 18px; }
+}
