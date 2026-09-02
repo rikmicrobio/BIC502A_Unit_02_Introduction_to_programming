@@ -1,45 +1,395 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BIC502A - Unit II Linux Mini Quiz</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="container">
-    <header>
-      <div class="course">BIC502A</div>
-      <h1>Unit II Linux Mini Quiz</h1>
-      <p>Test your understanding of basic Linux commands.</p>
-    </header>
+/*
+  BIC502A Unit II Linux Mini Quiz
 
-    <section id="startScreen" class="card">
-      <h2>Student Information</h2>
+  Google Sheets integration:
+  Quiz results are automatically submitted
+  to the instructor's Google Sheet.
+*/
 
-      <label for="studentName">Full Name <span>*</span></label>
-      <input id="studentName" type="text" placeholder="Enter your full name" autocomplete="name">
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbx1nrYaVg1_L6GC0xii1gL2JZSgyNur5lvIQObU95YLPq-RnB8l2jQn2cTUjYP-C2g3cw/exec";
 
-      <label for="rollNumber">Roll Number <small>(Optional)</small></label>
-      <input id="rollNumber" type="text" placeholder="Enter your roll number">
 
-      <button id="startButton" type="button">Start Quiz</button>
-    </section>
+const questions = [
+  {
+    question: "Which command displays the beginning of a file?",
+    options: ["tail", "head", "grep", "cut"],
+    answer: "head"
+  },
+  {
+    question: "Which command displays the end of a file?",
+    options: ["head", "tail", "grep", "paste"],
+    answer: "tail"
+  },
+  {
+    question: "Which command searches for a pattern in a text file?",
+    options: ["grep", "fold", "cat", "vim"],
+    answer: "grep"
+  },
+  {
+    question: 'In "head -n 10 proteins_large.fasta", what is "-n"?',
+    options: ["Command", "Option", "Argument", "Output"],
+    answer: "Option"
+  },
+  {
+    question: 'In "head -n 10 proteins_large.fasta", what is "proteins_large.fasta"?',
+    options: ["Command", "Option", "Argument", "Delimiter"],
+    answer: "Argument"
+  },
+  {
+    question: 'What is the delimiter in "protein_01|KINASE_A|TEACHING_SET"?',
+    options: [">", "|", "-", "/"],
+    answer: "|"
+  },
+  {
+    question: "Which option makes grep ignore uppercase/lowercase differences?",
+    options: ["-n", "-i", "-c", "-f"],
+    answer: "-i"
+  },
+  {
+    question: "What does the pipe symbol | do?",
+    options: [
+      "Deletes a file",
+      "Sends output of one command to another command",
+      "Edits a file",
+      "Counts lines"
+    ],
+    answer: "Sends output of one command to another command"
+  },
+  {
+    question: "Which symbol writes command output to a file and replaces its existing contents?",
+    options: [">>", ">", "|", "-"],
+    answer: ">"
+  },
+  {
+    question: "Which symbol appends command output to the end of an existing file?",
+    options: [">", ">>", "|", "-"],
+    answer: ">>"
+  }
+];
 
-    <form id="quizForm" class="hidden">
-      <div id="questions"></div>
-      <button id="submitButton" type="submit">Submit Quiz</button>
-    </form>
 
-    <section id="resultScreen" class="card hidden">
-      <h2>Your Result</h2>
-      <div id="score"></div>
-      <p id="message"></p>
-      <p id="submissionStatus"></p>
-      <button id="againButton" type="button">Take Again</button>
-    </section>
-  </main>
+document.addEventListener("DOMContentLoaded", function () {
 
-  <script src="quiz.js"></script>
-</body>
-</html>
+  const startScreen =
+    document.getElementById("startScreen");
+
+  const quizForm =
+    document.getElementById("quizForm");
+
+  const resultScreen =
+    document.getElementById("resultScreen");
+
+  const questionsContainer =
+    document.getElementById("questions");
+
+
+  document
+    .getElementById("startButton")
+    .addEventListener("click", startQuiz);
+
+
+  // =============================
+  // START QUIZ
+  // =============================
+
+  function startQuiz() {
+
+    const name =
+      document
+        .getElementById("studentName")
+        .value
+        .trim();
+
+    const roll =
+      document
+        .getElementById("rollNumber")
+        .value
+        .trim();
+
+
+    if (name === "") {
+
+      alert(
+        "Please enter your full name before starting the quiz."
+      );
+
+      document
+        .getElementById("studentName")
+        .focus();
+
+      return;
+    }
+
+
+    if (roll === "") {
+
+      alert(
+        "Please enter your roll number before starting the quiz."
+      );
+
+      document
+        .getElementById("rollNumber")
+        .focus();
+
+      return;
+    }
+
+
+    startScreen.classList.add("hidden");
+
+    quizForm.classList.remove("hidden");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  // =============================
+  // CREATE QUESTIONS
+  // =============================
+
+  questions.forEach(function (item, index) {
+
+    const questionDiv =
+      document.createElement("section");
+
+    questionDiv.className = "question";
+
+
+    const heading =
+      document.createElement("h3");
+
+    heading.textContent =
+      (index + 1) + ". " + item.question;
+
+    questionDiv.appendChild(heading);
+
+
+    item.options.forEach(function (option) {
+
+      const label =
+        document.createElement("label");
+
+      label.className = "option";
+
+
+      const radio =
+        document.createElement("input");
+
+      radio.type = "radio";
+
+      radio.name =
+        "question" + index;
+
+      radio.value =
+        option;
+
+      radio.required = true;
+
+
+      label.appendChild(radio);
+
+      label.appendChild(
+        document.createTextNode(option)
+      );
+
+
+      questionDiv.appendChild(label);
+
+    });
+
+
+    questionsContainer.appendChild(questionDiv);
+
+  });
+
+
+  // =============================
+  // SUBMIT QUIZ
+  // =============================
+
+  quizForm.addEventListener(
+    "submit",
+    submitQuiz
+  );
+
+
+  async function submitQuiz(event) {
+
+    event.preventDefault();
+
+
+    let score = 0;
+
+
+    questions.forEach(function (item, index) {
+
+      const selected =
+        document.querySelector(
+          'input[name="question' +
+          index +
+          '"]:checked'
+        );
+
+
+      if (
+        selected &&
+        selected.value === item.answer
+      ) {
+
+        score++;
+
+      }
+
+    });
+
+
+    // =============================
+    // STUDENT INFORMATION
+    // =============================
+
+    const name =
+      document
+        .getElementById("studentName")
+        .value
+        .trim();
+
+
+    const roll =
+      document
+        .getElementById("rollNumber")
+        .value
+        .trim();
+
+
+    // =============================
+    // RESULT
+    // =============================
+
+    const total =
+      questions.length;
+
+
+    const percentage =
+      Math.round(
+        (score / total) * 100
+      );
+
+
+    quizForm.classList.add("hidden");
+
+    resultScreen.classList.remove("hidden");
+
+
+    document.getElementById("score").textContent =
+      score + " / " + total;
+
+
+    document.getElementById("message").textContent =
+      score >= 9
+        ? "Excellent — Linux Explorer!"
+        : score >= 7
+        ? "Good work — Command Apprentice!"
+        : score >= 5
+        ? "Good start — keep exploring!"
+        : "Keep practising and try again!";
+
+
+    // =============================
+    // GOOGLE SHEETS SUBMISSION
+    // =============================
+
+    const status =
+      document.getElementById(
+        "submissionStatus"
+      );
+
+
+    status.textContent =
+      "Submitting your result...";
+
+
+    const data =
+      new URLSearchParams();
+
+
+    /*
+      IMPORTANT:
+
+      These names MUST match
+      the Google Apps Script.
+    */
+
+    data.append(
+      "rollNo",
+      roll
+    );
+
+    data.append(
+      "studentName",
+      name
+    );
+
+    data.append(
+      "score",
+      String(score)
+    );
+
+    data.append(
+      "total",
+      String(total)
+    );
+
+
+    try {
+
+      await fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: data
+        }
+      );
+
+
+      status.textContent =
+        "Your result has been submitted successfully.";
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent =
+        "Your score was calculated, but the result could not be submitted.";
+
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  // =============================
+  // TAKE AGAIN
+  // =============================
+
+  document
+    .getElementById("againButton")
+    .addEventListener(
+      "click",
+      function () {
+
+        window.location.reload();
+
+      }
+    );
+
+});
