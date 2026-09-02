@@ -24,3 +24,7 @@
 
 This repository contains practical material corresponding to the Unit II syllabus, including exercises and supporting files for working with file contents, searching, data manipulation, piping, and Bash.
 
+
+# QUIZZZZZZZ TIME:
+https://rikmicrobio.github.io/BIC502A_Unit_02_Introduction_to_programming/BIC502A_Unit_II_quiz/?utm_source=chatgpt.com
+
