@@ -1,3 +1,7 @@
+
+
+
+<img width="300" height="191" alt="Image" src="https://github.com/user-attachments/assets/a69fcfb7-199a-47f6-abbc-a8812872e5bd" />
 # BIC502A — Introduction to Programming
 
 ## Unit II — Viewing File Contents
