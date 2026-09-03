@@ -28,7 +28,7 @@ This repository contains practical material corresponding to the Unit II syllabu
 
 
 # Learning Recap:
-https://rikmicrobio.github.io/BIC502A_Unit_02_Introduction_to_programming/BIC502A_Unit_II_quiz/?utm_source=chatgpt.com
+https://rikmicrobio.github.io/BIC502A_Unit_02_Introduction_to_programming/BIC502A_Unit_II_quiz/?
 
 
 
